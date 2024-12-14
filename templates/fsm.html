@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>DFA Configuration Interface</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+    *{
+        margin: 0;
+        padding: 0;
+        font-family: 'Oxygen','sans-serif';
+    }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        .form-container {
+            background-color: #1e1e1e;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+            overflow: hidden;
+        }
+        .form-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .input-group input,
+        .input-group textarea {
+            width: 100%;
+            padding: 15px;
+            background-color: #2a2a2a;
+            border: 2px solid #3a3a3a;
+            color: #e0e0e0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        .input-group input:focus,
+        .input-group textarea:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            outline: none;
+        }
+        .input-group label {
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background: #1e1e1e;
+            padding: 0 5px;
+            font-size: 12px;
+            color: #3498db;
+        }
+        .submit-btn {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            width: 100%;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+        }
+        ::placeholder {
+            color: #7a7a7a;
+        }
+        #resdiv{
+            width: 80%;
+            height: 80vh;
+            border-radius: 50px;
+            background-color: rgba(0,0,0,.8);
+            display: flex;
+            top:50%;left:50%;
+            transform: translate(-50%,-50%);
+            position: absolute;
+            z-index: 20;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            display: none;
+        }
+        #resdiv #imgholder{
+            height: 90%;
+            width: 100%;
+            // border: 1px solid red;
+            // transform: rotate(90deg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #resdiv #reslabel{
+            height: 10%;
+            width: 100%;
+            // border: 1px solid yellow;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            color: #fff;
+            font-weight: bold;
+            transform: scale(0.6);
+            letter-spacing: 2px;
+
+        }
+        #resdiv #reslabel img{
+           border-radius: 40px;
+
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-black p-4" onkeydown=hideBox(event)>
+    <div class="form-container w-full max-w-2xl opacity-90">
+        <div class="form-header">
+            <h1 class="text-3xl font-bold">FSMSim-V1</h1>
+            <p class="mt-2 text-white/80">Minimalistic DFA Simulator using GraphViz</p>
+        </div>
+        
+        <form class="p-8 space-y-6">
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="input-group">
+                    <label>Number of States</label>
+                    <input 
+                        type="number" 
+                        placeholder="Enter state count"
+                        class="mt-2 nstates"
+                        required min=1
+                    >
+                </div>
+                <div class="input-group">
+                    <label>Initial State</label>
+                    <input 
+                        type="text" 
+                        placeholder="e.g. q0"
+                        class="mt-2 initstate"
+                        required
+                    >
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="input-group">
+                    <label>Final State</label>
+                    <input 
+                        type="text" 
+                        placeholder="e.g. q3"
+                        class="mt-2 finstate"
+                        required
+                    >
+                </div>
+                <div class="input-group">
+                    <label>Test String</label>
+                    <input 
+                        type="text" 
+                        placeholder="Enter test sequence"
+                        class="mt-2 tstring"
+                        required
+                    >
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Transitionss</label>
+                <textarea 
+                    placeholder="Enter transitions (e.g., q0,a,q1 q1,b,q2)"
+                    class="mt-2 h-32 trans"
+                    required
+                ></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn" onclick="sim(event)">
+                Simulate
+            </button>
+        </form>
+    </div>
+    <div id="resdiv">
+        <div id="imgholder">
+        <img src="/static/fsm_diagram.png"/>
+        </div>
+        <div id="reslabel">Result will be displayed here</div>
+    </div>
+    <script>
+    const sim=async(e)=>{
+        e.preventDefault();
+        const n=getVal(".nstates");
+        const is=getVal(".initstate");
+        const fs=getVal(".finstate");
+        const ts=getVal(".tstring");
+        const trans = getVal(".trans");
+        const qr={
+            "n": n,
+            "is": is,
+            "fs": fs,
+            "trans": trans,
+            "ts":ts
+}
+    console.log(qr)
+    const res=await fetch("http://127.0.0.1:5000/simfsm",{headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },method:"POST",body:JSON.stringify(qr)})
+    const rjson = await res.json();
+    console.log(rjson)
+    if(rjson.success){ document.querySelector("#resdiv").style.display='block';
+    var t=document.querySelector("#reslabel");
+    t.innerHTML=rjson.result;
+    if(rjson.accepted){
+        t.style.color='lime';
+    }
+    else{
+        t.style.color='red';
+    }
+    }
+    }
+    const getVal=(val)=>{
+        return document.querySelector(val).value;
+    }
+    const hideBox=(e)=>{
+        if(e.key=='Escape') document.querySelector("#resdiv").style.display='none';
+    }
+    </script>
+</body>
+</html>
