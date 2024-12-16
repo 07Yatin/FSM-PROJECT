@@ -5,7 +5,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
-    <title>FSMSim-V1</title>
+    <title>NFA TO DFA CONVERSION</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -127,7 +127,7 @@
     <div class="form-container w-full max-w-2xl opacity-90">
         <div class="form-header">
             <h1 class="text-3xl font-bold">FSMSim-V1</h1>
-            <p class="mt-2 text-white/80">Minimalistic DFA Simulator using GraphViz</p>
+            <p class="mt-2 text-white/80">Minimalistic NFA TO DFA converter</p>
         </div>
         
         <form class="p-8 space-y-6">
@@ -209,7 +209,7 @@
             "ts":ts
 }
     console.log(qr)
-    const res=await fetch("http://127.0.0.1:5000/simfsm",{headers: {
+    const res=await fetch("http://127.0.0.1:5000/convert",{headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },method:"POST",body:JSON.stringify(qr)})
