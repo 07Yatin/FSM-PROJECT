@@ -1,238 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
-    <title>FSMSim-V1</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FSM Simulator & Converter</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-    *{
-        margin: 0;
-        padding: 0;
-        font-family: 'Oxygen','sans-serif';
-    }
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #121212;
-            color: #e0e0e0;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #fff;
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .form-container {
-            background-color: #1e1e1e;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        .card {
+            background: #1e293b;
             border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-            overflow: hidden;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+            padding: 24px;
+            width: 100%;
+            max-width: 600px;
         }
-        .form-header {
-            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
-            color: white;
-            padding: 30px;
+        .card-header {
             text-align: center;
         }
-        .input-group {
-            position: relative;
-            margin-bottom: 20px;
+        .card-header h1 {
+            font-size: 1.875rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
         }
-        .input-group input,
+        .input-group label {
+            display: block;
+            margin-bottom: 0.25rem;
+            font-weight: 600;
+            color: #9ca3af;
+        }
+        .input-group input, 
         .input-group textarea {
             width: 100%;
-            padding: 15px;
-            background-color: #2a2a2a;
-            border: 2px solid #3a3a3a;
-            color: #e0e0e0;
+            padding: 12px;
+            margin-bottom: 1rem;
+            border: 1px solid #dadfe6;
             border-radius: 8px;
-            transition: all 0.3s ease;
+            background-color: #5d6d8e;
+            color: #fff;
         }
         .input-group input:focus,
         .input-group textarea:focus {
-            border-color: #3498db;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            border-color: #60a5fa;
             outline: none;
         }
-        .input-group label {
-            position: absolute;
-            top: -10px;
-            left: 15px;
-            background: #1e1e1e;
-            padding: 0 5px;
-            font-size: 12px;
-            color: #3498db;
-        }
-        .submit-btn {
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-            color: white;
-            padding: 15px;
+        .button {
+            display: block;
+            width: 100%;
+            background-color: #2563eb;
+            color: #fff;
+            padding: 12px;
+            font-weight: 600;
+            text-align: center;
             border: none;
             border-radius: 8px;
-            width: 100%;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            cursor: pointer;
+            transition: background-color 0.3s;
         }
-        .submit-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
-            background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%);
+        .button:hover {
+            background-color: #1d4ed8;
         }
-        ::placeholder {
-            color: #7a7a7a;
-        }
-        #resdiv{
-            width: 80%;
-            height: 80vh;
-            border-radius: 50px;
-            background-color: rgba(0,0,0,.8);
-            display: flex;
-            top:50%;left:50%;
-            transform: translate(-50%,-50%);
-            position: absolute;
-            z-index: 20;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
+        .result {
             display: none;
+            margin-top: 2rem;
+            text-align: center;
         }
-        #resdiv #imgholder{
-            height: 90%;
-            width: 100%;
-            // border: 1px solid red;
-            // transform: rotate(90deg);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .result img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
         }
-        #resdiv #reslabel{
-            height: 10%;
-            width: 100%;
-            // border: 1px solid yellow;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 30px;
-            color: #fff;
+        .result-message {
+            margin-top: 1rem;
+            font-size: 1.25rem;
             font-weight: bold;
-            transform: scale(0.6);
-            letter-spacing: 2px;
-
-        }
-        #resdiv #reslabel img{
-           border-radius: 40px;
-
         }
     </style>
 </head>
-<body class="flex items-center justify-center min-h-screen bg-black p-4" onkeydown=hideBox(event)>
-    <div class="form-container w-full max-w-2xl opacity-90">
-        <div class="form-header">
-            <h1 class="text-3xl font-bold">FSMSim-V1</h1>
-            <p class="mt-2 text-white/80">Minimalistic DFA Simulator using GraphViz</p>
+<body>
+    <div class="card">
+        <div class="card-header">
+            <h1>FSM Simulator & NFA to DFA Converter</h1>
+            <p class="text-sm text-gray-400">Enter your configuration below</p>
         </div>
-        
-        <form class="p-8 space-y-6">
-            <div class="grid md:grid-cols-2 gap-6">
-                <div class="input-group">
-                    <label>Number of States</label>
-                    <input 
-                        type="number" 
-                        placeholder="Enter state count"
-                        class="mt-2 nstates"
-                        required min=1
-                    >
-                </div>
-                <div class="input-group">
-                    <label>Initial State</label>
-                    <input 
-                        type="text" 
-                        placeholder="e.g. q0"
-                        class="mt-2 initstate"
-                        required
-                    >
-                </div>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-6">
-                <div class="input-group">
-                    <label>Final State</label>
-                    <input 
-                        type="text" 
-                        placeholder="e.g. q3"
-                        class="mt-2 finstate"
-                        required
-                    >
-                </div>
-                <div class="input-group">
-                    <label>Test String</label>
-                    <input 
-                        type="text" 
-                        placeholder="Enter test sequence"
-                        class="mt-2 tstring"
-                        required
-                    >
-                </div>
+        <form id="fsmForm">
+            <div class="input-group">
+                <label for="nstates">Number of States</label>
+                <input type="number" id="nstates" placeholder="e.g., 5" required min="1">
             </div>
 
             <div class="input-group">
-                <label>Transitionss</label>
-                <textarea 
-                    placeholder="Enter transitions (e.g., q0,a,q1 q1,b,q2)"
-                    class="mt-2 h-32 trans"
-                    required
-                ></textarea>
+                <label for="initstate">Initial State</label>
+                <input type="text" id="initstate" placeholder="e.g., q0" required>
             </div>
 
-            <button type="submit" class="submit-btn" onclick="sim(event)">
-                Simulate
-            </button>
+            <div class="input-group">
+                <label for="finstate">Final States (space-separated)</label>
+                <input type="text" id="finstate" placeholder="e.g., q2 q4" required>
+            </div>
+
+            <div class="input-group">
+                <label for="tstring">Test String</label>
+                <input type="text" id="tstring" placeholder="e.g., ababab" required>
+            </div>
+
+            <div class="input-group">
+                <label for="trans">Transitions</label>
+                <textarea id="trans" placeholder="e.g., q0,a,q1 q1,b,q2 q2,a,q1" rows="6" required></textarea>
+            </div>
+
+            <div class="input-group">
+                <label for="operation">Operation</label>
+                <select id="operation" class="bg-gray-800 text-white rounded-md w-full p-3">
+                    <option value="simfsm">Simulate DFA</option>
+                    <option value="convert">Convert NFA to DFA</option>
+                </select>
+            </div>
+
+            <button type="submit" class="button">Submit</button>
         </form>
-    </div>
-    <div id="resdiv">
-        <div id="imgholder">
-        <img src="/static/fsm_diagram.png" id="fsmimg"/>
+
+        <div class="result" id="result">
+            <img src="" alt="FSM Diagram" id="fsmImage">
+            <p class="result-message" id="resultMessage"></p>
         </div>
-        <div id="reslabel">Result will be displayed here</div>
     </div>
+
     <script>
-    const sim=async(e)=>{
-        e.preventDefault();
-        const n=getVal(".nstates");
-        const is=getVal(".initstate");
-        const fs=getVal(".finstate");
-        const ts=getVal(".tstring");
-        const trans = getVal(".trans");
-        const qr={
-            "n": n,
-            "is": is,
-            "fs": fs,
-            "trans": trans,
-            "ts":ts
-}
-    console.log(qr)
-    const res=await fetch("http://127.0.0.1:5000/simfsm",{headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },method:"POST",body:JSON.stringify(qr)})
-    const rjson = await res.json();
-    console.log(rjson)
-    if(rjson.success){ document.querySelector("#resdiv").style.display='block';
-    var t=document.querySelector("#reslabel");
-    document.querySelector("#fsmimg").src=rjson.imgpath;
-    t.innerHTML=rjson.result;
-    if(rjson.accepted){
-        t.style.color='lime';
-    }
-    else{
-        t.style.color='red';
-    }
-    }
-    }
-    const getVal=(val)=>{
-        return document.querySelector(val).value;
-    }
-    const hideBox=(e)=>{
-        if(e.key=='Escape') document.querySelector("#resdiv").style.display='none';
-    }
+        document.getElementById("fsmForm").addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const nstates = document.getElementById("nstates").value;
+            const initstate = document.getElementById("initstate").value;
+            const finstate = document.getElementById("finstate").value;
+            const tstring = document.getElementById("tstring").value;
+            const trans = document.getElementById("trans").value;
+            const operation = document.getElementById("operation").value;
+
+            const payload = {
+                n: nstates,
+                is: initstate,
+                fs: finstate,
+                ts: tstring,
+                trans: trans
+            };
+
+            try {
+                const response = await fetch(`http://127.0.0.1:5000/${operation}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(payload),
+                });
+
+                if (!response.ok) {
+                    throw new Error("Failed to fetch the result");
+                }
+
+                const data = await response.json();
+
+                const resultDiv = document.getElementById("result");
+                const resultMessage = document.getElementById("resultMessage");
+                const fsmImage = document.getElementById("fsmImage");
+
+                if (data.success) {
+                    fsmImage.src = data.imgpath;
+                    resultMessage.textContent = data.result;
+                    resultMessage.style.color = data.accepted ? "lime" : "red";
+                    resultDiv.style.display = "block";
+                } else {
+                    alert("Error: " + data.message);
+                }
+            } catch (error) {
+                alert("Error: " + error.message);
+            }
+        });
     </script>
 </body>
 </html>
